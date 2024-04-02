@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace ReferenceViewer
 {
@@ -44,7 +45,7 @@ namespace ReferenceViewer
 			CommandInfo commandInfo = searchType.Command();
 			string[] eol = {commandInfo.NewLine};
 			Result result = new Result();
-			string applicationDataPathWithoutAssets = Application.dataPath.Replace("Assets", "");
+			string applicationDataPathWithoutAssets = Regex.Replace(Application.dataPath, "Assets$", "");
 
 			try
 			{
@@ -163,7 +164,7 @@ namespace ReferenceViewer
 				// metaの中に参照を握っているケース
 				if (extension == ".meta")
 				{
-					var assetPath = projectFile.Replace(".meta", "").Replace(applicationDataPathWithoutAssets, "");			
+					var assetPath = projectFile.Replace(".meta", "").Replace(applicationDataPathWithoutAssets, "");
 #if UNITY_EDITOR_WIN
 					assetPath = assetPath.Replace("\\", "/");
 #endif
